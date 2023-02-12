@@ -1,0 +1,11 @@
+
+Debug/Core/Src/stm32f4xx_hal_msp.su
+*.d
+*.o
+*.su
+*.mk
+*.list
+*.elf
+*.map
+Debug/makefile
+.vscode/settings.json
