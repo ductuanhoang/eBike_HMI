@@ -26,34 +26,36 @@
 /***************************** Include Files *********************************/
 
 #include "vsm_retarget.h"
-#include "stdint.h"
-#include "Config_SCI9_Debug.h"
 #include "vsm_fifo.h"
-
 /************************** Constant Definitions *****************************/
 
 /**************************** Type Definitions *******************************/
-
+static UART_HandleTypeDef* uart = NULL;
+extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart2;
+// for uart ble
+extern fifo_t com_fifo;
+extern uint8_t u8RxByte2;
 /***************** Macros (Inline Functions) Definitions *********************/
 
 /********************** Internal Function Prototypes *************************/
 
 /************************** Variable Definitions *****************************/
 fifo_t shell_fifo;
-uint8_t shell_rx_buffer[128] = {0};
-uint8_t u8RxByte = 0;
-
-// sci9 debug
-volatile bool sci9_rx_finish_flag = false;
-volatile bool sci9_tx_finish_flag = false;
-
-
+uint8_t shell_rx_buffer[512] = {0};
+uint8_t cli_rx_byte = 0;
+static int retarget_init_fifo(void);
 /********************* Exported Function Definitions *************************/
 
-void HAL_UART_RxCpltCallback(void)
-{
-	R_Config_SCI9_Debug_Serial_Receive( &u8RxByte, 1);
-	fifo_add(&shell_fifo, &u8RxByte);
+/*! ----------------------------------------------------------------------------
+ * @fn port_stdio_init
+ * @brief Initialize stdio on the given UART
+ *
+ * @param[in] huart Pointer to the STM32 HAL UART peripheral instance
+ */
+void retarget_shell(UART_HandleTypeDef* huart) {
+    uart = huart;
+    retarget_init_fifo();
 }
 
 /**
@@ -61,16 +63,14 @@ void HAL_UART_RxCpltCallback(void)
  *
  * @return     { description_of_the_return_value }
  */
-int retarget_init_fifo(void) {
+static int retarget_init_fifo(void) {
   fifo_create(
                     &shell_fifo,
                     shell_rx_buffer,
                     sizeof(shell_rx_buffer)/sizeof(uint8_t),
                     sizeof(uint8_t)
                   );
-
-  R_Config_SCI9_Debug_Start();
-  R_Config_SCI9_Debug_Serial_Receive( &u8RxByte, 1 );
+  HAL_UART_Receive_IT(&huart1, (uint8_t *)&cli_rx_byte, 1);
   return 0;
 }
 
@@ -105,14 +105,11 @@ int serial_get_char(uint8_t *c) {
 //debug printf
 int uart_debug_printf(const char *Format, ...)
 {
-//	uint32_t timeout = 0;
-	uint8_t buff[128 + 1] = {0};
+	uint8_t buff[512 + 1] = {0};
 	va_list args;
 	va_start(args, Format);
 	uint16_t len = vsprintf((char*)buff, Format, args);
-	sci9_tx_finish_flag = false;
-	R_Config_SCI9_Debug_Serial_Send( (uint8_t*)buff,  len);
-	while(sci9_tx_finish_flag == false);
+    HAL_UART_Transmit(uart, (uint8_t *)buff, len, 400);
 	va_end(args);
 	return -1;
 }
@@ -120,10 +117,8 @@ int uart_debug_printf(const char *Format, ...)
 
 long user_putchar(const char * str)
 {
-  sci9_tx_finish_flag = false;
-  R_Config_SCI9_Debug_Serial_Send( (uint8_t *)str,  strlen(str));
-  while(sci9_tx_finish_flag == false);
-  return 0;
+    HAL_UART_Transmit(uart, (uint8_t *)str, 1, 100);
+    return 0;
 }
 
 
@@ -134,7 +129,19 @@ long user_getchar (void)
 }
 
 
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if (huart == &huart1)
+    {
+      fifo_add(&shell_fifo, &cli_rx_byte);
+      HAL_UART_Receive_IT(uart, &cli_rx_byte, 1);
+    }
+	else if (huart == &huart2)
+	{
+		fifo_add(&com_fifo, &u8RxByte2);
+		HAL_UART_Receive_IT(&huart2, &u8RxByte2, 1);
+	}
+}
 /********************* Internal Function Definitions *************************/
 
 /*****************************************************************************/

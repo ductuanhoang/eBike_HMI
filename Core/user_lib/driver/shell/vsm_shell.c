@@ -62,10 +62,9 @@
  */
 
 //#include <assert.h>
-#include "../../vsm_common.h"
 #include "vsm_shell.h"
-#include "string.h"
-#include "../peripheral/timer.h"
+#include "stm32f4xx_hal.h"
+//#include "cmsis_os.h"
 
 /*******************************************************************************
  * Definitions
@@ -154,12 +153,11 @@ void SHELL_Process(p_shell_context_t context) {
     }
 
 
- //vTaskDelay( 20 / portTICK_RATE_MS );  /* sleep a while */
-    if(timer_get_tick() - tick < 20) {
+    if(xTaskGetTickCount() - tick < 20) {
         return;
     }
 
-    tick = timer_get_tick();
+    tick = xTaskGetTickCount();
 
     if (context->exit)
     {

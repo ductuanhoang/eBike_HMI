@@ -31,8 +31,10 @@
 /***************************** Include Files *********************************/
 //#include "FreeRTOS.h"
 //#include "queue.h"
+#include "../../common/common.h"
+
 /************************** Constant Definitions *****************************/
-#include "../../vsm_common.h"
+
 /**************************** Type Definitions *******************************/
 
 /***************** Macros (Inline Functions) Definitions *********************/
@@ -52,12 +54,13 @@
 /************************** Function Prototypes ******************************/
 // int xSerialGetChar (portCHAR *pcRxedChar, portTickType xBlockTime );
 
-int retarget_init_fifo(void);
-void HAL_UART_RxCpltCallback(void);
+//int retarget_init_fifo(void);
+//void HAL_UART_RxCpltCallback(uint8_t *u8RxByte);
 int uart_debug_printf(const char *Format, ...);
 long user_putchar(const char * str);
 long user_getchar (void);
 // int serial_get_char(uint8_t *c);
+void retarget_shell(UART_HandleTypeDef* huart);
 /*****************************************************************************/
 
 
