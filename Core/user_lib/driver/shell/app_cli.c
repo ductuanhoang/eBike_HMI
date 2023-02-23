@@ -92,13 +92,13 @@ static int32_t test_ble(p_shell_context_t context, int32_t argc, char **argv)
 
 static int32_t sensor_list(p_shell_context_t context, int32_t argc, char **argv)
 {
-	APP_LOGD("ble status = %s", sensor_read.ble_status == 1 ? "CONNECT":"DISCONNECT");
-	APP_LOGD("sensor press = %d", sensor_read.fPressure_sender_percent);
-	APP_LOGD("sensor vBat charg = %d", sensor_read.fVbat_charging);
-	APP_LOGD("sensor vBat lipo= %d", sensor_read.fVbat_lipo);
-	APP_LOGD("sensor Knock1 = %d", sensor_read.knock_sensor_channel_1);
-	APP_LOGD("sensor Knock2 = %d", sensor_read.knock_sensor_channel_2);
-	APP_LOGD("sensor rpm = %d", sensor_read.rpm);
+//	APP_LOGD("ble status = %s", sensor_read.ble_status == 1 ? "CONNECT":"DISCONNECT");
+//	APP_LOGD("sensor press = %d", sensor_read.fPressure_sender_percent);
+//	APP_LOGD("sensor vBat charg = %d", sensor_read.fVbat_charging);
+//	APP_LOGD("sensor vBat lipo= %d", sensor_read.fVbat_lipo);
+//	APP_LOGD("sensor Knock1 = %d", sensor_read.knock_sensor_channel_1);
+//	APP_LOGD("sensor Knock2 = %d", sensor_read.knock_sensor_channel_2);
+//	APP_LOGD("sensor rpm = %d", sensor_read.rpm);
     return 0;
 }
 
@@ -106,6 +106,5 @@ static int32_t rise_compute(p_shell_context_t context, int32_t argc, char **argv
 {
 	uint16_t data = atoi(argv[1]);
 	int32_t value = 0;
-	value = oild_pressuare_table(data);
-	APP_LOGI("compute = %d", value);
+	APP_LOGI("compute = %d", data);
 }

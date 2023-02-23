@@ -1,14 +1,13 @@
 /**
- * @file common.c
- * @author tuanhd (ductuanhoang820@gmail.com)
+ * @file app_test_func.c
+ * @author your name (you@domain.com)
  * @brief 
  * @version 0.1
- * @date 2023-02-10
+ * @date 2023-02-23
  * 
  * @copyright Copyright (c) 2023
  * 
  */
-
 /***********************************************************************************************************************
 * Pragma directive
 ***********************************************************************************************************************/
@@ -16,7 +15,7 @@
 /***********************************************************************************************************************
 * Includes <System Includes>
 ***********************************************************************************************************************/
-#include "common.h"
+#include "app_test_func.h"
 
 /***********************************************************************************************************************
 * Macro definitions
@@ -33,33 +32,19 @@
 /***********************************************************************************************************************
 * Exported global variables and functions (to be accessed by other files)
 ***********************************************************************************************************************/
-uint32_t tick_time = 0;
+
 /***********************************************************************************************************************
 * Imported global variables and functions (from other files)
 ***********************************************************************************************************************/
-/**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
-void assert_failed(uint8_t *file, uint32_t line)
+
+void appInit(void)
 {
-  /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-    //  ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-    // TODO:: create reset thí board 
-  /* USER CODE END 6 */
+
 }
 
-/**
- * @brief 
- * 
- */
-void device_reset(void)
+void appRun(void)
 {
-
+ 
 }
 /***********************************************************************************************************************
 * static functions

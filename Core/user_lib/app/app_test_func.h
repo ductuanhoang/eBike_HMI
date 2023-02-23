@@ -1,22 +1,22 @@
 /**
- * @file user_driver.h
- * @author tuanhd (ductuanhoang820@gmail.com)
+ * @file app_test_func.h
+ * @author your name (you@domain.com)
  * @brief 
  * @version 0.1
- * @date 2023-02-10
+ * @date 2023-02-23
  * 
  * @copyright Copyright (c) 2023
  * 
  */
 
-#ifndef USER_DRIVER_H_
-#define USER_DRIVER_H_
+#ifndef APP_TEST_FUNC_H_
+#define APP_TEST_FUNC_H_
 
 /****************************************************************************/
 /***        Include files                                                 ***/
 /****************************************************************************/
-#include "common.h"
-#include "app_cli.h"
+#include "driver/user_driver.h"
+
 /****************************************************************************/
 /***        Macro Definitions                                             ***/
 /****************************************************************************/
@@ -30,15 +30,5 @@
 /***         Exported global functions                                     ***/
 /****************************************************************************/
 
-/**
- * @brief initialzation driver
- *
- */
-void userDriverInitial(void);
 
-/**
- * @brief process all driver
- * Note: this function is called in loop thread
- */
-void userDriverProcess(void);
-#endif /* USER_DRIVER_H_ */
+#endif /* APP_TEST_FUNC_H_ */

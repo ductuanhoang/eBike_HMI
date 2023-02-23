@@ -138,8 +138,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     }
 	else if (huart == &huart2)
 	{
-		fifo_add(&com_fifo, &u8RxByte2);
-		HAL_UART_Receive_IT(&huart2, &u8RxByte2, 1);
+//		fifo_add(&com_fifo, &u8RxByte2);
+//		HAL_UART_Receive_IT(&huart2, &u8RxByte2, 1);
 	}
 }
 /********************* Internal Function Definitions *************************/
